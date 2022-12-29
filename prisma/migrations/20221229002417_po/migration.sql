@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('STUDENT', 'CLASS_REP', 'SU_EXCO', 'ADMIN', 'MODERATOR', 'PUBLISER');
 
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('PUBLISHED', 'TRASHED', 'DRAFT', 'PENDING');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -36,9 +39,9 @@ CREATE TABLE "Follow" (
 CREATE TABLE "Topic" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "published" BOOLEAN NOT NULL DEFAULT true,
     "pinned" BOOLEAN NOT NULL DEFAULT false,
     "slug" TEXT NOT NULL,
+    "status" "Status" NOT NULL DEFAULT 'PENDING',
     "content" TEXT NOT NULL,
     "createdDate" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedDate" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
@@ -47,7 +50,6 @@ CREATE TABLE "Topic" (
     "viwes" INTEGER DEFAULT 1,
     "categoryId" INTEGER,
     "shareCount" INTEGER DEFAULT 0,
-    "trashed" BOOLEAN DEFAULT false,
 
     CONSTRAINT "Topic_pkey" PRIMARY KEY ("id")
 );
@@ -113,7 +115,7 @@ CREATE TABLE "ReplyLike" (
 CREATE TABLE "Material" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "published" BOOLEAN NOT NULL DEFAULT true,
+    "status" "Status" NOT NULL DEFAULT 'PENDING',
     "pinned" BOOLEAN NOT NULL DEFAULT false,
     "slug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
@@ -122,7 +124,6 @@ CREATE TABLE "Material" (
     "authorId" INTEGER NOT NULL,
     "viwes" INTEGER DEFAULT 0,
     "courseCodeId" INTEGER NOT NULL,
-    "trashed" BOOLEAN DEFAULT false,
 
     CONSTRAINT "Material_pkey" PRIMARY KEY ("id")
 );
