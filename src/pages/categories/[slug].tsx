@@ -25,6 +25,9 @@ export async function getServerSideProps(context: any) {
     },
     include: {
       topics: {
+        where: {
+          status: 'PUBLISHED',
+        },
         include: {
           author: {
             select: {

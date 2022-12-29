@@ -28,7 +28,7 @@ export default function Name(props: any) {
 export async function getServerSideProps(context: any) {
   const result = await prisma.topic.findMany({
     where: {
-      trashed: false,
+      status: 'PUBLISHED',
     },
     include: {
       author: {

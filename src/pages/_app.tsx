@@ -10,6 +10,7 @@ import 'nprogress/nprogress.css';
 import '../styles/globals.css';
 import RightSideBar from '../components/sidebar/rightsidebar';
 import LeftSIdeBar from '../components/sidebar/leftSIdeBar';
+import Layout from '../../layout/Layout';
 const MyApp: AppType = ({ Component, pageProps }: any) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -34,7 +35,9 @@ const MyApp: AppType = ({ Component, pageProps }: any) => {
   if (Component.getLayout) {
     return Component.getLayout(
       <AuthProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </AuthProvider>
     );
   }
@@ -43,7 +46,9 @@ const MyApp: AppType = ({ Component, pageProps }: any) => {
       <div className=' md:flex  '>
         <LeftSIdeBar />
         <div className='min-w-[480px] md:justify-center md:flex'>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </div>
 
         <RightSideBar />

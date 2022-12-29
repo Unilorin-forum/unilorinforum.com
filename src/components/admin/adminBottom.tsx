@@ -11,7 +11,7 @@ export default function AdminBottom(props: IBottomNavProps) {
   return (
     <div className=''>
       <div className=' admin-bottom-nav bg-[#000] text-white fixed   items-center flex justify-around '>
-        <Link href={'#'}>Topics</Link>
+        <Link href={'/rightmain/topics'}>Topics</Link>
         <Link href={'#'}>Materials</Link>
         <Link href={'#'}>Votings</Link>
         <Link href={'/rightmain/users'}>Users</Link>

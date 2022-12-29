@@ -19,6 +19,9 @@ export default function ExplorePage({ topics, materials }: Props) {
 }
 export async function getServerSideProps(context: any) {
   const result = await prisma.topic.findMany({
+    where: {
+      status: 'PUBLISHED',
+    },
     include: {
       author: {
         select: {

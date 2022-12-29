@@ -3,7 +3,9 @@ import { FiSettings } from 'react-icons/fi';
 import { GrNotification } from 'react-icons/gr';
 import useAuth from '../../../hooks/useAuth';
 import Link from 'next/link';
+import Image from 'next/image';
 import Notifications from '../notifications';
+import toast, { Toaster } from 'react-hot-toast';
 
 export interface HomePageHeaderProps {}
 
@@ -14,16 +16,24 @@ export default function HomePageHeader({}: HomePageHeaderProps) {
   const toggleNotification = () => {
     showNotification ? setShowNotification(false) : setShowNotification(true);
   };
+  const info = () => {
+    toast('Cannot perform this opration at this time', {
+      icon: '😢',
+    });
+  };
 
   return (
     <>
+      <Toaster position='bottom-center' reverseOrder={false} />
       {showNotification ? (
         <Notifications toggleNotification={toggleNotification} />
       ) : null}
       <div className='home-page-header border-b-2 md:hidden text-[#002D72] font- px-4 items-center  flex justify-between'>
         <div className='heade-logo font-extrabold text-xl'>
           <Link href={'/'}>
-            <a>RightApp</a>
+            <a>
+              <Image src={'/uniforumlogo.png'} height={50} width={50} alt='' />
+            </a>
           </Link>
         </div>
         <div className='flex  space-x-4 '>
@@ -37,21 +47,22 @@ export default function HomePageHeader({}: HomePageHeaderProps) {
               </span>
             </>
           ) : (
-            <div className='items-center space-x-2'>
+            <div onClick={info} className='items-center space-x-2'>
               <span className='font-bold'>
-                <Link href={'/login'}>
+                <span>
                   <a>login</a>
-                </Link>
+                </span>
               </span>
               <span className='font-bold whitespace-nowrap rounded-md p-1 px-2'>
-                <Link href={'/sign-up'}>
+                <span>
                   <a>Sign Up</a>
-                </Link>
+                </span>
               </span>
             </div>
           )}
         </div>
       </div>
+      <div id='ezoic-pub-ad-placeholder-609'> </div>
     </>
   );
 }

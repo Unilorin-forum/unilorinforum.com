@@ -18,7 +18,8 @@ export default async function handler(
         { title: 'Sugestion', slug: 'sugestion', forAdmin: false },
         { title: 'Just In', slug: 'news', forAdmin: true },
         { title: 'Announcement', slug: 'announcement', forAdmin: true },
-        { title: 'Sponsored', slug: 'Sponsored', forAdmin: true },
+        { title: 'Sponsored', slug: 'sponsored', forAdmin: true },
+        { title: 'Weekly Bulletin', slug: 'weekly-bulletin', forAdmin: true },
       ],
     });
 

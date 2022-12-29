@@ -62,12 +62,19 @@ enum Role {
   PUBLISER
 }
 
+enum Status {
+  PUBLISHED
+  TRASHED
+  DRAFT
+  PENDING
+}
+
 model Topic {
   id             Int              @id @default(autoincrement())
   title          String
-  published      Boolean          @default(true)
   pinned         Boolean          @default(false)
   slug           String           @unique
+  status         Status           @default(PENDING)
   content        String
   createdDate    DateTime?        @default(now())
   updatedDate    DateTime?        @default(now())
@@ -84,7 +91,6 @@ model Topic {
   savedMaterials SavedMaterials[]
   shareCount     Int?             @default(0)
   upload         TopicUpload[]
-  trashed        Boolean?         @default(false)
 }
 
 model SavedTopics {
@@ -143,7 +149,7 @@ model ReplyLike {
 model Material {
   id           Int            @id @default(autoincrement())
   title        String
-  published    Boolean        @default(true)
+  status       Status         @default(PENDING)
   pinned       Boolean        @default(false)
   slug         String         @unique
   description  String
@@ -159,7 +165,6 @@ model Material {
   department   Department[]
   materialLike materialLike[]
   uploads      upload[]
-  trashed      Boolean?       @default(false)
 }
 
 model TopicUpload {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Select from 'react-select';
+import to, { Toaster } from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import useAuth from '../../../hooks/useAuth';
 import { AiFillSetting } from 'react-icons/ai';
@@ -29,12 +30,14 @@ export default function NewTopic({ topic }: any) {
   const [catOptions, setCatOptions] = useState([{}]);
   const [screenshoots, setScreenShoots]: any = useState('');
   const { auth }: any = useAuth();
+  console.log(auth.role);
 
   useEffect(() => {
     if (topic.id) {
       if (auth.id !== topic.authorId) {
         Router.back();
       }
+
       setTitleInput(topic.title);
       setSelectedCategory({
         value: topic.Category.id,
@@ -43,7 +46,7 @@ export default function NewTopic({ topic }: any) {
     }
 
     axios
-      .get('api/categories/user')
+      .get('api/categories/admin')
       .then((res) => {
         const defaultOptions = res.data.map((x: any) =>
           createOption(x.title, x.id)
@@ -99,9 +102,8 @@ export default function NewTopic({ topic }: any) {
         `/api/topics/${topic.id ? 'update' : 'create'}`,
         payload
       );
+      console.log(sendTopic);
 
-      const topicId = sendTopic.data.body.id;
-      const topicSlug = sendTopic.data.body.slug;
       if (!sendTopic.data.success) {
         toast.update(ToastId, {
           render: sendTopic.data.message,
@@ -118,6 +120,8 @@ export default function NewTopic({ topic }: any) {
           transition: Slide,
         });
       } else {
+        const topicId = sendTopic.data.body.id;
+        const topicSlug = sendTopic.data.body.slug;
         for (var x = 0; x < screenshoots.length; x++) {
           try {
             let { data } = await axios.post('/api/uploads', {
@@ -276,6 +280,7 @@ export default function NewTopic({ topic }: any) {
           marginLeft: '20px',
         }}
       />
+      <Toaster position='bottom-center' reverseOrder={false} />
       <div className='md:ml-[80px] rounded-lg bg-white md:mt-[40px] md:overflow-scroll p-[10px] md:w-full w-screen md:max-h-[450px] md:max-w-[600px] flex flex-col space-y-3 '>
         {coverImage ? (
           <div>
@@ -365,11 +370,28 @@ export default function NewTopic({ topic }: any) {
 
       <div className='flex text-ssssssssssssxl bottom-0 fixed z-10 space-x-5 items-center   w-full bg-[#0d0331] text-[#fff] h-12 px-2 '>
         <span
-          onClick={handleSubmit}
+          onClick={() => {
+            if (auth.role === 'STUDENT' || !auth.id) {
+              to(
+                "Until we have lunch fully You'll need to be an admin to create a topic!",
+                {
+                  icon: '🥲',
+                  style: {
+                    borderRadius: '10px',
+                    background: '#0f0f0f',
+                    color: '#fff',
+                  },
+                }
+              );
+            } else {
+              handleSubmit();
+            }
+          }}
           className='border rounded px-3 font-extrabold bg-white text-[#0d0331] px-1sssssssss '
         >
           Publish
         </span>
+
         <span>Save</span>
         <AiFillSetting className='text-xl' />
       </div>

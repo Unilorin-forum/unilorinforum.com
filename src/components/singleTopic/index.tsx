@@ -120,24 +120,27 @@ export default function SingleTopic({
               topic.trashed ? 'text-[#f50909]' : ''
             } text-justify text-sm px-1`}
           ></div>
-          <div className='items-center w-full flex flex-col border border-black p-1 py-3 rounded-md my-4'>
-            {topic.upload.map((upload: any) => {
-              return (
-                <div
-                  className='border-black p-1 py-3 rounded-md'
-                  key={upload.id}
-                >
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_FILE_API_URL}/topic/${upload.link}`}
-                    alt=''
-                    width={400}
-                    height={200}
-                    className='object-cover'
-                  />
-                </div>
-              );
-            })}
-          </div>
+          <div id='ezoic-pub-ad-placeholder-609'> </div>
+          {topic.upload.lenght ? (
+            <div className='items-center w-full flex flex-col border border-black p-1 py-3 rounded-md my-4'>
+              {topic.upload.map((upload: any) => {
+                return (
+                  <div
+                    className='border-black p-1 py-3 rounded-md'
+                    key={upload.id}
+                  >
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_FILE_API_URL}/topic/${upload.link}`}
+                      alt=''
+                      width={400}
+                      height={200}
+                      className='object-cover'
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
       </div>
       {isReply ? null : (
